@@ -187,6 +187,10 @@ public:
 
     void setMat4(const std::string &name, const glm::mat4 &mat) const
     {
+        // 参数1：uniform的位置值
+        // 参数2：告诉OpenGL发送多少个矩阵
+        // 参数3：是否对矩阵进行置换，即交换矩阵的行和列
+        // 参数4：矩阵数据，可以使用glm::value_ptr()来变换数据
         glUniformMatrix4fv(glGetUniformLocation(ID, name.c_str()), 1, GL_FALSE, &mat[0][0]);
     }
 

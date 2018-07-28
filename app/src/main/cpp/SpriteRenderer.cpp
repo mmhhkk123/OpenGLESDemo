@@ -44,8 +44,13 @@ void SpriteRenderer::DrawSprite(Texture2D &texture, glm::vec2 position,
 	// 准备变换
 	this->shader.use();
 	glm::mat4 model;
+
+	// 实际的变换顺序与代码顺序相反
+
+	// 位移
 	model = glm::translate(model, glm::vec3(position, 0.0f));
 	model = glm::translate(model, glm::vec3(0.5f * size.x, 0.5f * size.y, 0.0f));
+	// rotate是幅度制，可以用glm::radians将角度转化为弧度
 	model = glm::rotate(model, rotate, glm::vec3(0.0f, 0.0f, 1.0f));
 	model = glm::translate(model, glm::vec3(-0.5f * size.x, -0.5f * size.y, 0.0f));
 	model = glm::scale(model, glm::vec3(size, 1.0f));

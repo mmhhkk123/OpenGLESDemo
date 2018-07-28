@@ -39,7 +39,19 @@ JNIEXPORT void JNICALL Java_com_example_zhzl_myapp_GLES3JNILib_init(JNIEnv *, jc
     // load shader
     Data vData = FileUtils::getInstance()->readDataFromAssets("assets/Shaders/sprite.vsh");
     Data fData = FileUtils::getInstance()->readDataFromAssets("assets/Shaders/sprite.fsh");
+    // 正射投影矩阵
+    // 参数1，2：左右坐标
+    // 参数3，4：上下坐标
+    // 参数5，6：近平面，远平面
     glm::mat4 projection = glm::ortho(0.0f, static_cast<GLfloat>(1280), static_cast<GLfloat>(720), 0.0f, -1.0f, 1.0f);
+
+    // 透视投影矩阵
+    // 参数1：视野角度，通常为45.0f
+    // 参数2：宽高比
+    // 参数3：近平面
+    // 参数4：远平面
+    // glm::mat4 proj = glm::perspective(glm::radians(45.0f), (float)width/(float)height, 0.1f, 100.0f);
+
     Shader shaderProgram((const char* )vData.getBytes(), vData.getSize(), (const char* )fData.getBytes(), fData.getSize());
     shaderProgram.use();
     shaderProgram.setInt("image", 0);
@@ -49,7 +61,7 @@ JNIEXPORT void JNICALL Java_com_example_zhzl_myapp_GLES3JNILib_init(JNIEnv *, jc
     int width, height, nrChannerls;
     Data imgBuffer = FileUtils::getInstance()->readDataFromAssets("assets/Textures/background.jpg");
     unsigned char* image = stbi_load_from_memory(imgBuffer.getBytes(), imgBuffer.getSize(), &width, &height, &nrChannerls, 0);
-    texture.Generate(width, height, image);
+    texture.Generate((GLuint)width, (GLuint)height, image);
     stbi_image_free(image);
 
     renderer = new SpriteRenderer(shaderProgram);
